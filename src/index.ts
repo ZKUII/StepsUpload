@@ -1,32 +1,18 @@
 import api from "./api/index"
-import Koa from "koa"
-import Router from "koa-router"
-import koaBody from "koa-body"
 
-type MiAccount = {
-    account?: string
-    password?: string
-    boundDate?: string
-    step?: number
+
+const { account, password, step } = process.env
+if (account && password) {
+    const hours = new Date().getHours();
+    let mStep = Number(step);
+    if (mStep) {
+        mStep = hours <= 12 ? 10000 : hours <= 20 ? 20000 : 23456;
+    }
+    console.log("更新步数：" + mStep);
+    api.updateStep(account, password, mStep, function (resp) {
+        console.log(resp);
+    });
+} else {
+    console.log("账户信息不完整");
 }
 
-const app = new Koa();
-const router = new Router();
-app.use(async (ctx, next) => {
-    console.log(`Process ${ctx.request.method} ${ctx.request.url}...`);
-    await next();
-});
-
-router.post('/sport/updateStep', async (ctx, next) => {
-    const date: MiAccount = ctx.request.body;
-    let body = null;
-    await api.updateStep(date.account!, date.password!, date.step!, function (res) {
-        console.log(res);
-        body = res.body
-    });
-    console.log(body);
-    ctx.body = body;
-});
-app.use(koaBody())
-app.use(router.routes());
-app.listen(3000);
