@@ -11,7 +11,7 @@ name: steps upload
 on:
   schedule:
     # * is a special character in YAML so you have to quote this string
-    - cron:  '*/15 * * * *'
+    - cron:  '*/15 */1 * * *'
 
 jobs:
   upload:
@@ -22,12 +22,12 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Setup node
-      - uses: actions/setup-node@v2
+        uses: actions/setup-node@v2
         with:
           node-version: '14.15.4'
 
       - run: npm install
-      - run: npm run dev
+             npm run dev
         env:
           account: ${{ secrets.ACCOUNT }}   
           password: ${{ secrets.PASSWORD }}    
