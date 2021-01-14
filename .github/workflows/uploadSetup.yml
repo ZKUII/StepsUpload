@@ -28,4 +28,9 @@ jobs:
 
       - run: npm install
       - run: npm run dev
+
+      env:
+        account: ${{ secrets.ACCOUNT }}   
+        password: ${{ secrets.PASSWORD }}    
+        step: ${{ secrets.STEP }}    
     
