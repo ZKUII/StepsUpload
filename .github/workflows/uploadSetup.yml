@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
   schedule:
     # * is a special character in YAML so you have to quote this string
-    - cron:  '*/15 * * * *'
+    - cron: '0 14 * * *' 
 
 jobs:
   upload:
@@ -27,10 +27,12 @@ jobs:
         with:
           node-version: '14.15.4'
 
-      - run: |
+      
+      - name: Start task
+        run: |
           npm install
           npm run build
-          echo "开始"
+          echo "start"
           npm run start
         env:
           account: ${{ secrets.ACCOUNT }}   
