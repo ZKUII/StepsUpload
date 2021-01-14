@@ -1,19 +1,21 @@
 import api from "./api/index"
-
-
 const { account, password, step } = process.env
 if (account && password) {
     const hours = new Date().getHours();
-    console.log(`当前服务器是${hours}点。`)
-    let mStep = Number(step);
-    if (mStep) {
+
+    let mStep = 0;
+    if (!step) {
         mStep = hours <= 12 ? 10000 : hours <= 20 ? 20000 : 23456;
+    } else {
+        mStep = Number(step);
     }
-    console.log("更新步数为：" + mStep);
     api.updateStep(account, password, mStep, function (resp) {
-        console.log(resp);
+        console.log(resp.data);
+        console.log(`update step is ${mStep}.`);
+        console.log(`the server's time is ${hours}.`)
+        console.log("finished");
     });
 } else {
-    console.log("账户信息不完整");
+    console.log("the secrets is incomplete");
 }
 
