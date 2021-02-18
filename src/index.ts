@@ -7,7 +7,7 @@ if (account && password) {
     if (!step) {
         mStep = hours <= 12 ? 10000 : hours <= 20 ? 20000 : 23456;
     } else {
-        mStep = Number(step);
+        mStep = Number(step + Math.ceil(Math.random() * 3000) + 1);
     }
     api.updateStep(account, password, mStep, function (resp) {
         console.log(resp.data);
